@@ -1,0 +1,48 @@
+[+] Building 238.7s (10/11)  docker:de[+] Building 238.9s (10/11)  docker:de[+] Building 239.0s (10/11)  docker:de[+] Building 239.2s (10/11)  docker:de[+] Building 239.3s (10/11)  docker:de[+] Building 239.4s (10/11)  docker:de[+] Building 239.6s (11/11)  docker:de[+] Building 239.7s (11/11)  docker:de[+] Building 239.8s (11/11) FINISHED docker:desktop-linuxRKDIR /app    0.0s
+ => [internal] load build defin  0.1s
+ => => transferring docker 502B  0.0s
+ => [internal] load metadata fo  3.5s
+ => [auth] library/python:pull   0.0s
+ => [internal] load .dockerigno  0.1s
+ => => transferring context: 2B  0.1s
+ => [1/5] FROM docker.io/librar  0.1s
+ => => resolve docker.io/librar  0.1s
+ => [internal] load build conte  0.1s
+ => => transferring contex 743B  0.0s
+ => CACHED [2/5] WORKDIR /app    0.0s
+ => [3/5] COPY requirements.txt  0.1s
+ => [4/5] RUN pip install -r   186.2s 
+ => [5/5] COPY . .               0.2s 
+ => exporting to image          48.9s 
+ => => exporting layers         34.2s 
+ => => exporting manifest sha25  0.0s 
+ => => exporting config sha256:  0.0s 
+ => => exporting attestation ma  0.0s 
+ => => exporting manifest list   0.0s 
+ => => naming to docker.io/kart  0.0s 
+ => => unpacking to docker.io/  13.7s 
+PS C:\Users\karth\Downloads\Dockerized-Health-Assistant-main> docker tag karthik1803/health-assistant karthik1803/health-assistant:latest
+PS C:\Users\karth\Downloads\Dockerized-Health-Assistant-main> docker push karthik1803/health-assistant:latest     
+The push refers to repository [docker.io/karthik1803/health-assistant]      
+cec49b84de9d: Pushed
+6e909acdb790: Pushed
+4de847ad7e3e: Pushed
+f4266c7c631b: Pushed
+e225243a755b: Pushed
+9a95d1744747: Pushed
+72b188527f0e: Pushed
+53b77c279216: Pushed
+da1cbe0d584f: Pushed
+latest: digest: sha256:2e06c16334e001d77eeb410864a650a8329dccf5d9dca0143ab4e5c70ba7e609 size: 856
+PS C:\Users\karth\Downloads\Dockerized-Health-Assistant-main> docker run -p 8501:8501 karthik1803/health-assistant
+     
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501    
+  Network URL: http://172.17.0.2:8501 
+  External URL: http://210.89.61.34:8501
+
