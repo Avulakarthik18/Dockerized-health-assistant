@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/Avulakarthik18/Dockerized-health-assistant'
+                git branch: 'main', url: 'https://github.com/Avulakarthik18/Dockerized-health-assistant.git'
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
 
     post {
         always {
-            echo '✅ CI/CD pipeline complete!'
+            echo '✅ Pipeline finished'
         }
     }
 }
