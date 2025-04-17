@@ -1,57 +1,36 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'karthik1803/health-assistant_v1'  // ✅ your DockerHub image name
-        TAG = 'v1'
-    }
-
     stages {
-        stage('Clone Repository') {
+        stage('Clone Repo') {
             steps {
-                echo "Fetching code..."
-                checkout scm
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                echo "Installing Python dependencies..."
-                sh 'pip install -r requirements.txt'
+                git 'https://github.com/Avulakarthik18/Dockerized-health-assistant'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image..."
-                sh 'docker build -t $IMAGE_NAME:$TAG .'
+                sh 'docker build -t health-assistant .'
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Stop & Remove Old Container') {
             steps {
-                echo "Pushing Docker image to Docker Hub..."
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-                    sh 'docker push $IMAGE_NAME:$TAG'
-                }
+                sh 'docker stop health-assistant || true'
+                sh 'docker rm health-assistant || true'
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Run New Container') {
             steps {
-                echo "Running Docker container..."
-                sh 'docker run -d -p 8501:8501 $IMAGE_NAME:$TAG'
+                sh 'docker run -d -p 8501:8501 --name health-assistant health-assistant'
             }
         }
     }
 
     post {
-        success {
-            echo "Pipeline executed successfully!"
-        }
-        failure {
-            echo "Pipeline failed!"
+        always {
+            echo '✅ CI/CD pipeline complete!'
         }
     }
 }
