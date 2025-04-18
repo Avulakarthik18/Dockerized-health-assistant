@@ -26,7 +26,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 bat 'docker context use default'
-                withDockerRegistry([credentialsId: 'docker_hub_credentials', url: '']) {
+                withDockerRegistry([credentialsId: 'docker_hub_credentials', url: 'https://hub.docker.com/u/karthik1803']) {
                     script {
                         docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
                     }
