@@ -16,11 +16,11 @@ pipeline {
 
 
         stage('Build Docker Image') {
-            stage('Build Docker Image') {
-    steps {
-        bat 'docker build --no-cache -t ${IMAGE_NAME}:${IMAGE_TAG} .'
-    }
-}
+            steps {
+                script {
+                    docker.build("${IMAGE_NAME}")
+                }
+            }
         }
         
 
