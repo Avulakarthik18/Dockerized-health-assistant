@@ -2,45 +2,55 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'health-assistant'
-        CONTAINER_NAME = 'health-assistant'
+        IMAGE_NAME = 'karthik1803/health-assistant_v1'
+        IMAGE_TAG = 'v1'
+        CONTAINER_NAME = 'hardcore_gould'
     }
 
-        stage('📦 Clone Repository') {
+    stages {
+        stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/Avulakarthik18/Dockerized-health-assistant.git'
+                git 'https://github.com/Avulakarthik18/Dockerized-health-assistant'
             }
         }
 
-        stage('🐳 Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
-                echo "Building Docker image: ${IMAGE_NAME}"
-                sh "docker build -t ${IMAGE_NAME} ."
+                script {
+                    docker.build("${IMAGE_NAME}")
+                }
             }
         }
 
-        stage('🗑️ Stop & Remove Old Container') {
+        stage('Push to Docker Hub') {
             steps {
-                echo "Stopping and removing old container: ${CONTAINER_NAME}"
-                sh "docker stop ${CONTAINER_NAME} || true"
-                sh "docker rm ${CONTAINER_NAME} || true"
+                bat 'docker context use default'
+                withDockerRegistry([credentialsId: 'docker_hub_credentials', url: '']) {
+                    script {
+                        docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
+                    }
+                }
             }
         }
 
-        stage('🚀 Run New Container') {
+        stage('Cleanup Existing Container') {
             steps {
-                echo "Running container: ${CONTAINER_NAME}"
-                sh "docker run -d -p 8501:8501 --name ${CONTAINER_NAME} ${IMAGE_NAME}"
+                bat """
+                    docker ps -a -q --filter "name=${CONTAINER_NAME}" > container_id.txt
+                    for /f %%i in (container_id.txt) do (
+                        docker stop %%i
+                        docker rm %%i
+                    )
+                    del container_id.txt
+                """
             }
         }
-    }
 
-    post {
-        always {
-            echo '✅ Jenkins pipeline execution complete.'
-        }
-        failure {
-            echo '❌ Jenkins pipeline failed! Please check the logs above.'
+        stage('Run New Container') {
+            steps {
+                bat "docker run -d -p 5000:5000 --name ${CONTAINER_NAME} ${IMAGE_NAME}:${IMAGE_TAG}"
+            }
         }
     }
 }
+
