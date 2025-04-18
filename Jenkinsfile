@@ -16,9 +16,21 @@ pipeline {
 
 
         stage('Build Docker Image') {
+            stage('Build Docker Image') {
+    steps {
+        bat 'docker build --no-cache -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+    }
+}
+        }
+        
+
+        stage('Push to Docker Hub') {
             steps {
-                script {
-                    docker.build("${IMAGE_NAME}")
+                bat 'docker context use default'
+                withDockerRegistry([credentialsId: 'docker_hub_credentials', url: 'https://hub.docker.com/u/karthik1803']) {
+                    script {
+                        docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
+                    }
                 }
             }
         }
