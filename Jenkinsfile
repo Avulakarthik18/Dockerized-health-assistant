@@ -9,10 +9,11 @@ pipeline {
 
     stages {
         stage('Clone Repo') {
-            steps {
-                git 'https://github.com/Avulakarthik18/Dockerized-health-assistant'
-            }
-        }
+    steps {
+        git branch: 'main', url: 'https://github.com/Avulakarthik18/Dockerized-health-assistant.git'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
