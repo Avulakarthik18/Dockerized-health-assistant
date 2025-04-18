@@ -24,15 +24,16 @@ pipeline {
         }
 
         stage('Push to Docker Hub') {
-            steps {
-                bat 'docker context use default'
-                withDockerRegistry([credentialsId: 'docker_hub_credentials', url: 'https://hub.docker.com/u/karthik1803']) {
-                    script {
-                        docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
-                    }
-                }
+    steps {
+        bat 'docker context use default'
+        withDockerRegistry([credentialsId: 'docker_hub_credentials', url: 'https://index.docker.io/v1/']) {
+            script {
+                docker.image("${IMAGE_NAME}").push("${IMAGE_TAG}")
             }
         }
+    }
+}
+
 
         stage('Cleanup Existing Container') {
             steps {
