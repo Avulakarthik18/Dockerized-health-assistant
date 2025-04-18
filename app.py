@@ -7,7 +7,7 @@ from streamlit_option_menu import option_menu
 warnings.filterwarnings("ignore")
 
 # Set page configuration
-st.set_page_config(page_title="Health Assistant", layout="wide",page_icon="🧑‍⚕️")
+st.set_page_config(page_title="Health Assistant", layout="wide", page_icon="💡")
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
