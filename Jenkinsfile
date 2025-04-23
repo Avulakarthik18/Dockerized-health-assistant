@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'karthik1803/health-assistant_v1'
         IMAGE_TAG = 'v1'
-        CONTAINER_NAME = 'hardcore_gould'
+        CONTAINER_NAME = 'health-assistant'
     }
 
     stages {
