@@ -65,7 +65,7 @@ with st.sidebar:
                            default_index = 0)
 
 if selected == 'Diabetics Prediction':
-    st.title('Diabetes Prediction using Machine learning learning.')
+    st.title('Diabetes Prediction using Machine learning.')
     
     
     with st.form(key="my_form",clear_on_submit=True):
