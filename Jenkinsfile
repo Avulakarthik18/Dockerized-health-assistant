@@ -15,9 +15,10 @@ pipeline {
 }
 
 
+        stages {
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image..."
+                echo "Building Docker image using cache..."
                 bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
