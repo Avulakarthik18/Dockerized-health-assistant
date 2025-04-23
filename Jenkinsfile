@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}")
+                    bat "docker build --no-cache -t %IMAGE_NAME%:%TAG% ."
                 }
             }
         }
