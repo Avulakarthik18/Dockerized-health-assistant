@@ -20,7 +20,17 @@ pipeline {
                 bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
-
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat '''
+                        echo Logging in to Docker Hub...
+                        echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
+                        docker push %IMAGE_NAME%:%IMAGE_TAG%
+                    '''
+                }
+            }
+        }
         stage('Cleanup Existing Container') {
             steps {
                 bat """
