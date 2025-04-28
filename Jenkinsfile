@@ -14,11 +14,24 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Avulakarthik18/Dockerized-health-assistant.git'
             }
         }
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat 'docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%'
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker image using cache..."
                 bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
+            }
+        }
+        
+        stage('Docker Push') {
+            steps {
+                bat 'docker push %IMAGE_NAME%:%IMAGE_TAG%'
             }
         }
         
