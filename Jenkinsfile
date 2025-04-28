@@ -5,8 +5,7 @@ pipeline {
         IMAGE_NAME = 'karthik1803/health-assistant_v1'
         IMAGE_TAG = 'v1'
         CONTAINER_NAME = 'health-assistant'
-        DOCKER_HUB_USER = 'karthik1803'
-        DOCKER_HUB_PASS = 'Shiva@1803'
+
     }
 
     stages {
@@ -22,16 +21,7 @@ pipeline {
                 bat "docker build -t %IMAGE_NAME%:%IMAGE_TAG% ."
             }
         }
-        stage('Push Docker Image to Hub') {
-            steps {
-                echo "Pushing image to Docker Hub..."
-                bat """
-                docker login -u %DOCKER_HUB_USER% -p %DOCKER_HUB_PASS%
-                docker push %IMAGE_NAME%:%IMAGE_TAG%
-                docker logout
-                """
-            }
-        }
+        
         stage('Cleanup Existing Container') {
             steps {
                 bat """
